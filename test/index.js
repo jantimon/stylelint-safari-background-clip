@@ -49,5 +49,15 @@ testRule(plugin.rule, {
 			message:
 				'Expected ".a-block:focus" (".a-block") not to include "inline-flex" and "background-clip" at the same time. Please see https://bugs.webkit.org/show_bug.cgi?id=169125 (plugin/stylelint-safari-background-clip)',
 		},
+		{
+			code: '.a-block { display: inline-flex; } .a-block { &:focus { background-clip: text; } }',
+			message:
+				'Expected "&:focus" (".a-block") not to include "inline-flex" and "background-clip" at the same time. Please see https://bugs.webkit.org/show_bug.cgi?id=169125 (plugin/stylelint-safari-background-clip)',
+		},
+		{
+			code: '.a-block { &:before { display: inline-flex; } } .a-block { &:focus:before { background-clip: text; } }',
+			message:
+				'Expected "&:focus:before" (".a-block:before") not to include "inline-flex" and "background-clip" at the same time. Please see https://bugs.webkit.org/show_bug.cgi?id=169125 (plugin/stylelint-safari-background-clip)',
+		},
 	],
 });

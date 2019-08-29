@@ -11,7 +11,8 @@ module.exports = stylelint.createPlugin(ruleName, (options) => {
 	return (root, result) => {
 		let results = {};
 		root.walkRules((rule) => {
-			const className = getMostInnerClassNameFromSelector(rule.selector);
+			const className = getMostInnerClassNameFromSelector(rule);
+			console.log(rule.selector, ' >>>', className)
 			if (!className) {
 				return;
 			}
@@ -57,14 +58,33 @@ module.exports = stylelint.createPlugin(ruleName, (options) => {
 module.exports.ruleName = ruleName;
 module.exports.messages = messages;
 
-function getMostInnerClassNameFromSelector(selector) {
+function getMostInnerClassNameFromSelector(rule) {
+	const selector = rule.selector;
 	const selectorWithoutInteractivePseudoClasses = selector.replace(/:([a-z]+)/gi, (_, pseudo) => {
 		return pseudo === 'before' || pseudo === 'after' ? ':' + pseudo : '';
 	});
-	const ruleMatches = selectorWithoutInteractivePseudoClasses.match(/((\.[a-z0-9\-\_]+)(|:after|:before))\s*$/i);
-	if (ruleMatches) {
-		return ruleMatches[0];
+	const ruleMatches = selectorWithoutInteractivePseudoClasses.match(/(\.[a-z0-9\-\_]+|&)(|:after|:before)\s*$/i);
+	if (!ruleMatches) {
+		return;
 	}
+	const [fullMatch, innerSelector, pseudo] = ruleMatches;
+	// Try to replace & with the parent rule selector
+	if (innerSelector === '&') {
+		const parent = getParentRule(rule);
+		// Stop if we can not find a parent (e.g. inside a mixin)
+		if (!parent) {
+			return;
+		}
+		const parentMostInnerClassName = getMostInnerClassNameFromSelector(parent);
+		// Stop if the recusive call to resolve the & replacement failed
+		if (!parentMostInnerClassName) {
+			return;
+		}
+		return parentMostInnerClassName + pseudo
+
+	}
+	// Return a class e.g. .my-class or .my-class:before
+	return fullMatch;
 }
 
 function getParentRule(decl) {
