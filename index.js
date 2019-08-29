@@ -57,10 +57,12 @@ module.exports = stylelint.createPlugin(ruleName, (options) => {
 module.exports.ruleName = ruleName;
 module.exports.messages = messages;
 
+const pseudoTags = ['before', 'after', 'first-child', 'last-child'];
+
 function getMostInnerClassNameFromSelector(rule) {
 	const selector = rule.selector;
-	const selectorWithoutInteractivePseudoClasses = selector.replace(/:([a-z]+)/gi, (_, pseudo) => {
-		return pseudo === 'before' || pseudo === 'after' ? ':' + pseudo : '';
+	const selectorWithoutInteractivePseudoClasses = selector.replace(/:([a-z\-]+)/gi, (_, pseudo) => {
+		return pseudoTags.indexOf(pseudo) !== -1 ? ':' + pseudo : '';
 	});
 	const ruleMatches = selectorWithoutInteractivePseudoClasses.match(/(\.[a-z0-9\-\_]+|&)(|:after|:before)\s*$/i);
 	if (!ruleMatches) {

@@ -16,6 +16,9 @@ testRule(plugin.rule, {
 		{
 			code: '.a-block { background-clip: text }',
 		},
+		{
+			code: '.a-block { display: flex } .a-block:first-child { background-clip: text }',
+		},
 	],
 
 	reject: [
