@@ -1,0 +1,59 @@
+{
+  "name": "stylelint-safari-background-clip",
+  "version": "1.0.0",
+  "description": "Try to detect possible safari background clip bugs - https://bugs.webkit.org/show_bug.cgi?id=169125",
+  "main": "index.js",
+  "scripts": {
+    "cz": "git-cz",
+    "prettier": "prettier --write \"**/*.*(js|jsx|ts|tsx|json)\"",
+    "test": "node test"
+  },
+  "keywords": [
+    "safari",
+    "stylelint"
+  ],
+  "author": "Jan Nicklas",
+  "license": "MIT",
+  "dependencies": {
+    "stylelint": "10.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "8.1.0",
+    "@namics/commitlint-conventional-changelog": "1.1.5",
+    "@namics/cz-conventional-changelog": "1.1.4",
+    "@namics/prettier-config": "0.2.0",
+    "commitizen": "4.0.3",
+    "husky": "3.0.4",
+    "lint-staged": "9.2.3",
+    "prettier": "1.18.2",
+    "pretty-quick": "1.11.1",
+    "stylelint-test-rule-tape": "0.2.0"
+  },
+  "private": false,
+  "engines": {
+    "node": ">=10"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js,jsx,ts,tsx,json}": [
+        "pretty-quick --staged"
+      ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@namics/commitlint-conventional-changelog"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "@namics/cz-conventional-changelog"
+    }
+  }
+}
