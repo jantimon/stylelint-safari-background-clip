@@ -12,7 +12,6 @@ module.exports = stylelint.createPlugin(ruleName, (options) => {
 		let results = {};
 		root.walkRules((rule) => {
 			const className = getMostInnerClassNameFromSelector(rule);
-			console.log(rule.selector, ' >>>', className)
 			if (!className) {
 				return;
 			}
