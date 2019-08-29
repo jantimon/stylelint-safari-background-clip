@@ -4,7 +4,8 @@
   "description": "Try to detect possible safari background clip bugs - https://bugs.webkit.org/show_bug.cgi?id=169125",
   "main": "index.js",
   "scripts": {
-    "cz": "git-cz",
+    "commit": "git-cz",
+    "release": "standard-version",
     "prettier": "prettier --write \"**/*.*(js|jsx|ts|tsx|json)\"",
     "test": "node test"
   },
@@ -27,6 +28,7 @@
     "lint-staged": "9.2.3",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1",
+    "standard-version": "7.0.0",
     "stylelint-test-rule-tape": "0.2.0"
   },
   "private": false,
